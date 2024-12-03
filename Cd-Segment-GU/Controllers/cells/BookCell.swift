@@ -7,8 +7,18 @@
 
 import UIKit
 
-class TableViewCell: UITableViewCell {
+class BookCell: UITableViewCell {
 
+    @IBOutlet weak var bName: UILabel!
+    
+    @IBOutlet weak var bAuthor: UILabel!
+    
+    @IBOutlet weak var bISBN: UILabel!
+    
+    @IBOutlet weak var bID: UILabel!
+    
+    @IBOutlet weak var bUUID: UILabel!
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
