@@ -79,6 +79,7 @@ class HomeVC: UIViewController {
                 self.cdTable.isHidden = true
 
             } else if self.tableSegment.selectedSegmentIndex == 1 {
+                self.bookArr = CDManager().readFromCd()
                 self.cdTable.reloadData()
                 self.cdTable.isHidden = false
                 self.bookTable.isHidden = true
@@ -86,6 +87,15 @@ class HomeVC: UIViewController {
             }
         }
     }
+    
+    
+    func deleteFromArr(position: Int) {
+        bookArr.remove(at: position)
+        DispatchQueue.main.async {
+            self.cdTable.reloadData()
+        }
+    }
+    
     
     @IBAction func segmentChanged(_ sender: Any) {
         print("current selected segment: \(tableSegment.selectedSegmentIndex)")
@@ -105,36 +115,101 @@ extension HomeVC: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        
-        let currSeg = tableSegment.selectedSegmentIndex
-        let cell = (currSeg == 0) ? bookTable.dequeueReusableCell(withIdentifier: "BookCell", for: indexPath) as! BookCell  : cdTable.dequeueReusableCell(withIdentifier: "BookCell", for: indexPath) as! BookCell
-        
-        if currSeg == 0 {
-            
-            cell.bName.text = apiBookArr[indexPath.row].name
-            cell.bAuthor.text = apiBookArr[indexPath.row].author
-            cell.bID.text = "\(apiBookArr[indexPath.row].bookid)"
-            cell.bISBN.text = apiBookArr[indexPath.row].ISBN
-            cell.bUUID.text = "\(apiBookArr[indexPath.row].id)"
-            
-            
-        } else if currSeg == 1 {
-            
-            cell.bName.text = bookArr[indexPath.row].name
-            cell.bAuthor.text = bookArr[indexPath.row].author
-            cell.bID.text = "\(bookArr[indexPath.row].bookid)"
-            cell.bISBN.text = bookArr[indexPath.row].ISBN
-            cell.bUUID.text = "\(bookArr[indexPath.row].id)"
-                        
-        }
-     
-        return cell
 
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: "BookCell", for: indexPath) as? BookCell else {
+                return UITableViewCell()
+        }
+            
+        let currSeg = tableSegment.selectedSegmentIndex
         
+        switch currSeg {
+        case 0:
+            guard indexPath.row < apiBookArr.count else {
+                print("Index out of bounds for apiBookArr")
+                return cell
+            }
+            let book = apiBookArr[indexPath.row]
+            configureCell(cell, with: book)
+            
+        case 1:
+            guard indexPath.row < bookArr.count else {
+                print("Index out of bounds for bookArr")
+                return cell
+            }
+            let book = bookArr[indexPath.row]
+            configureCell(cell, with: book)
+            
+        default:
+            break
+        }
+        
+        return cell
+//        let currSeg = tableSegment.selectedSegmentIndex
+//        let cell = (currSeg == 0) ? bookTable.dequeueReusableCell(withIdentifier: "BookCell", for: indexPath) as! BookCell  : cdTable.dequeueReusableCell(withIdentifier: "BookCell", for: indexPath) as! BookCell
+//        
+//        if currSeg == 0 {
+//            
+//            cell.bName.text = apiBookArr[indexPath.row].name
+//            cell.bAuthor.text = apiBookArr[indexPath.row].author
+//            cell.bID.text = "\(apiBookArr[indexPath.row].bookid)"
+//            cell.bISBN.text = apiBookArr[indexPath.row].ISBN
+//            cell.bUUID.text = "\(apiBookArr[indexPath.row].id)"
+//            
+//            
+//        } else if currSeg == 1 {
+//            
+//            cell.bName.text = bookArr[indexPath.row].name
+//            cell.bAuthor.text = bookArr[indexPath.row].author
+//            cell.bID.text = "\(bookArr[indexPath.row].bookid)"
+//            cell.bISBN.text = bookArr[indexPath.row].ISBN
+//            cell.bUUID.text = "\(bookArr[indexPath.row].id)"
+//                        
+//        }
+//     
+//        return cell
+
     }
+
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
+        if tableView == bookTable {
+            
+            let bookSelected = apiBookArr[indexPath.row]
+            let bookToAdd = BookModel(bookid: bookSelected.bookid, name: bookSelected.name, author: bookSelected.author, ISBN: bookSelected.ISBN)
+            CDManager().AddToCd(bookToAdd: bookToAdd)
+            bookTable.deselectRow(at: indexPath, animated: true)
+        } else if tableView == cdTable {
+            cdTable.deselectRow(at: indexPath, animated: true)
+
+        }
+    }
+    
+    
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        
+        if tableView == cdTable {
+            
+            if editingStyle == .delete {
+                
+                let bookToDelete = bookArr[indexPath.row]
+                CDManager().deleteFromCD(book: bookToDelete)
+                deleteFromArr(position: indexPath.row)
+            }
+        }
+
+    }
+    
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 250
+        return 300
     }
     
+    private func configureCell(_ cell: BookCell, with book: BookModel) {
+        cell.bName.text = book.name
+        cell.bAuthor.text = book.author
+        cell.bID.text = "\(book.bookid)"
+        cell.bISBN.text = book.ISBN
+        cell.bUUID.text = "\(book.id)"
+    }
 }

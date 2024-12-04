@@ -48,10 +48,37 @@ class CDManager {
         
         do {
             try managedContext.save()
-            print("Saved successfully!")
+            print("Book Saved successfully!")
         } catch let err as NSError {
             print(err)
         }
     }
+    
+    
+    //  delete func for CD
+    func deleteFromCD(book: BookModel) {
+        guard let delegate = UIApplication.shared.delegate as? AppDelegate else { return }
+        
+        let managedContext = delegate.persistentContainer.viewContext
+        
+        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "Books")
+        
+        fetchRequest.predicate = NSPredicate(format: "name = %@", book.name)
+//        fetchRequest.predicate = NSPredicate(format: "id = %@", book.bookid)
+        
+        do {
+            let fetchRes = try managedContext.fetch(fetchRequest)
+            let objToDelete = fetchRes[0] as! NSManagedObject
+            managedContext.delete(objToDelete)
+            
+            try managedContext.save()
+            print("Book deleted successfully")
+            
+        } catch let err as NSError {
+            print("Somthing went wrong while deleting \(err)")
+        }
+    }
+    
+    
     
 }
