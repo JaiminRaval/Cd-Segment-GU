@@ -80,5 +80,33 @@ class CDManager {
     }
     
     
-    
+    //  update func for CD
+    func updateInCD(atId: Int32, updatedBook: BookModel) {
+        
+        guard let delegate = UIApplication.shared.delegate as? AppDelegate else { return }
+        
+        let managedContext = delegate.persistentContainer.viewContext
+        
+        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "Books")
+        
+        fetchRequest.predicate = NSPredicate(format: "bookid = %d", atId)
+        
+        do {
+            let rawData = try managedContext.fetch(fetchRequest)
+            
+            let objUpdata = rawData[0] as! NSManagedObject
+            objUpdata.setValue(updatedBook.name, forKey: "name")
+            objUpdata.setValue(updatedBook.author, forKey: "name")
+            objUpdata.setValue(updatedBook.ISBN, forKey: "name")
+            
+            try managedContext.save()
+            
+            
+        } catch let err as NSError {
+            print("Somthing went wrong while deleting \(err)")
+        }
+        
+        
+        
+    }
 }
