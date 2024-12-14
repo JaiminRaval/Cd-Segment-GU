@@ -40,7 +40,7 @@
                     </view>
                     <navigationItem key="navigationItem" id="dVj-n8-HcE">
                         <nil key="title"/>
-                        <segmentedControl key="titleView" opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="bar" selectedSegmentIndex="0" id="rBA-3Q-K7r">
+                        <segmentedControl key="titleView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="bar" selectedSegmentIndex="0" id="rBA-3Q-K7r">
                             <rect key="frame" x="131" y="6" width="131" height="32"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <segments>
@@ -61,11 +61,76 @@
                         <outlet property="bookTable" destination="Gpk-OS-oNU" id="cfM-Uf-Lyl"/>
                         <outlet property="cdTable" destination="Bby-Tm-U77" id="5Zd-Zn-JHw"/>
                         <outlet property="tableSegment" destination="rBA-3Q-K7r" id="u3i-k3-0qh"/>
+                        <segue destination="E8B-Au-eNU" kind="show" identifier="GoToUpdate" id="nQ4-gC-Zfx"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1066.4122137404579" y="4.9295774647887329"/>
+        </scene>
+        <!--UpdateVC-->
+        <scene sceneID="Neh-k0-eao">
+            <objects>
+                <viewController id="E8B-Au-eNU" customClass="UpdateVC" customModule="Cd_Segment_GU" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="UX9-Wp-I1g">
+                        <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="ZEu-Uk-1AT">
+                                <rect key="frame" x="20" y="128" width="353" height="34"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                            <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="HqZ-EI-bz8">
+                                <rect key="frame" x="20" y="212" width="353" height="34"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                            <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="uMU-9Y-ITS">
+                                <rect key="frame" x="20" y="296" width="353" height="34"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jmr-mc-5Nx">
+                                <rect key="frame" x="30" y="400" width="333" height="55"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="55" id="uzk-FM-MCE"/>
+                                </constraints>
+                                <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="tinted" title="Update"/>
+                                <connections>
+                                    <action selector="UpdatePressed:" destination="E8B-Au-eNU" eventType="touchUpInside" id="yiP-ff-gWN"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="Mec-U2-zCR"/>
+                        <color key="backgroundColor" systemColor="systemGray5Color"/>
+                        <constraints>
+                            <constraint firstItem="Mec-U2-zCR" firstAttribute="trailing" secondItem="ZEu-Uk-1AT" secondAttribute="trailing" constant="20" id="6rY-i7-KL3"/>
+                            <constraint firstItem="uMU-9Y-ITS" firstAttribute="leading" secondItem="Mec-U2-zCR" secondAttribute="leading" constant="20" id="AWA-NP-PlF"/>
+                            <constraint firstItem="HqZ-EI-bz8" firstAttribute="top" secondItem="ZEu-Uk-1AT" secondAttribute="bottom" constant="50" id="MO2-rw-Ksy"/>
+                            <constraint firstItem="ZEu-Uk-1AT" firstAttribute="leading" secondItem="Mec-U2-zCR" secondAttribute="leading" constant="20" id="Ncl-kF-QQc"/>
+                            <constraint firstItem="Mec-U2-zCR" firstAttribute="trailing" secondItem="HqZ-EI-bz8" secondAttribute="trailing" constant="20" id="NyD-3w-ypO"/>
+                            <constraint firstItem="ZEu-Uk-1AT" firstAttribute="top" secondItem="Mec-U2-zCR" secondAttribute="top" constant="25" id="fvU-L6-GLP"/>
+                            <constraint firstItem="Mec-U2-zCR" firstAttribute="trailing" secondItem="uMU-9Y-ITS" secondAttribute="trailing" constant="20" id="gMS-Y4-wUQ"/>
+                            <constraint firstItem="HqZ-EI-bz8" firstAttribute="leading" secondItem="Mec-U2-zCR" secondAttribute="leading" constant="20" id="mgd-Rp-u7b"/>
+                            <constraint firstItem="uMU-9Y-ITS" firstAttribute="top" secondItem="HqZ-EI-bz8" secondAttribute="bottom" constant="50" id="pfs-Hp-9s8"/>
+                            <constraint firstItem="jmr-mc-5Nx" firstAttribute="leading" secondItem="Mec-U2-zCR" secondAttribute="leading" constant="30" id="qqj-DP-rX0"/>
+                            <constraint firstItem="jmr-mc-5Nx" firstAttribute="top" secondItem="uMU-9Y-ITS" secondAttribute="bottom" constant="70" id="roc-Zz-04R"/>
+                            <constraint firstItem="Mec-U2-zCR" firstAttribute="trailing" secondItem="jmr-mc-5Nx" secondAttribute="trailing" constant="30" id="xfu-Xh-CXV"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" id="ETF-b6-8dG"/>
+                    <connections>
+                        <outlet property="authorTxt" destination="HqZ-EI-bz8" id="dod-3i-l0H"/>
+                        <outlet property="isbnTxt" destination="uMU-9Y-ITS" id="yJw-lc-deO"/>
+                        <outlet property="nameTxt" destination="ZEu-Uk-1AT" id="WNB-pX-88a"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="cfJ-wN-q6f" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1064.885496183206" y="770.4225352112677"/>
         </scene>
         <!--FormVC-->
         <scene sceneID="XJa-3Z-mDn">
@@ -154,6 +219,9 @@
         <image name="plus.app" catalog="system" width="128" height="114"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+        <systemColor name="systemGray5Color">
+            <color red="0.8980392157" green="0.8980392157" blue="0.91764705879999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
     </resources>
 </document>

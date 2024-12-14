@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		072819B52D042900002B6074 /* UpdateVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 072819B42D042900002B6074 /* UpdateVC.swift */; };
 		072F943E2CFEBBD300893F7C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 072F943D2CFEBBD300893F7C /* AppDelegate.swift */; };
 		072F94402CFEBBD300893F7C /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 072F943F2CFEBBD300893F7C /* SceneDelegate.swift */; };
 		072F94422CFEBBD300893F7C /* HomeVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 072F94412CFEBBD300893F7C /* HomeVC.swift */; };
@@ -19,9 +20,11 @@
 		072F945A2CFEE45E00893F7C /* BookCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 072F94582CFEE45E00893F7C /* BookCell.xib */; };
 		072F945C2CFEE7F800893F7C /* FormVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 072F945B2CFEE7F800893F7C /* FormVC.swift */; };
 		0749442E2CFF74C3001FE719 /* CDManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0749442D2CFF74C3001FE719 /* CDManager.swift */; };
+		076E58942D0DECC700E16499 /* AlertManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 076E58932D0DECC700E16499 /* AlertManager.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		072819B42D042900002B6074 /* UpdateVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateVC.swift; sourceTree = "<group>"; };
 		072F943A2CFEBBD300893F7C /* Cd-Segment-GU.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Cd-Segment-GU.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		072F943D2CFEBBD300893F7C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		072F943F2CFEBBD300893F7C /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -36,6 +39,7 @@
 		072F94582CFEE45E00893F7C /* BookCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = BookCell.xib; sourceTree = "<group>"; };
 		072F945B2CFEE7F800893F7C /* FormVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormVC.swift; sourceTree = "<group>"; };
 		0749442D2CFF74C3001FE719 /* CDManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CDManager.swift; sourceTree = "<group>"; };
+		076E58932D0DECC700E16499 /* AlertManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertManager.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -75,6 +79,7 @@
 				074944292CFF61B4001FE719 /* Views */,
 				0749442A2CFF61BA001FE719 /* Controllers */,
 				0749442C2CFF7499001FE719 /* Services */,
+				076E58922D0DEC8800E16499 /* Utilities */,
 				072F94492CFEBBD400893F7C /* Assets.xcassets */,
 			);
 			path = "Cd-Segment-GU";
@@ -104,6 +109,7 @@
 				072F94562CFEE45300893F7C /* cells */,
 				072F94412CFEBBD300893F7C /* HomeVC.swift */,
 				072F945B2CFEE7F800893F7C /* FormVC.swift */,
+				072819B42D042900002B6074 /* UpdateVC.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -123,6 +129,14 @@
 				0749442D2CFF74C3001FE719 /* CDManager.swift */,
 			);
 			path = Services;
+			sourceTree = "<group>";
+		};
+		076E58922D0DEC8800E16499 /* Utilities */ = {
+			isa = PBXGroup;
+			children = (
+				076E58932D0DECC700E16499 /* AlertManager.swift */,
+			);
+			path = Utilities;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -197,7 +211,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				072819B52D042900002B6074 /* UpdateVC.swift in Sources */,
 				072F94552CFEBBE800893F7C /* BookModel.swift in Sources */,
+				076E58942D0DECC700E16499 /* AlertManager.swift in Sources */,
 				072F94422CFEBBD300893F7C /* HomeVC.swift in Sources */,
 				072F943E2CFEBBD300893F7C /* AppDelegate.swift in Sources */,
 				072F94592CFEE45E00893F7C /* BookCell.swift in Sources */,

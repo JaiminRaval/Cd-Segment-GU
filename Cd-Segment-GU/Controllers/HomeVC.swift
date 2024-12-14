@@ -16,6 +16,8 @@ class HomeVC: UIViewController {
     
     @IBOutlet weak var cdTable: UITableView!
     
+    var selectedBook: BookModel!
+    
     var apiBookArr: [BookModel] = [
         BookModel(bookid: 01, name: "To Kill a Mockingbird", author: "Harper Lee", ISBN: "9780446310789"),
         BookModel(bookid: 02, name: "1984", author: "George Orwell", ISBN: "9780451524935"),
@@ -48,6 +50,14 @@ class HomeVC: UIViewController {
     
     var bookArr: [BookModel] = []
     
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        self.bookArr = CDManager().readFromCd()
+        reloadUI()
+    }
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         tableSegment.selectedSegmentIndex = 0
@@ -56,6 +66,7 @@ class HomeVC: UIViewController {
         setupTable()
         reloadUI()
     }
+    
     
     func setupTable(){
         bookTable.delegate = self
@@ -69,6 +80,16 @@ class HomeVC: UIViewController {
         bookTable.isHidden = false
         cdTable.isHidden = true
     }
+    
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "GoToUpdate" {
+            if let updateVC = segue.destination as? UpdateVC {
+                updateVC.bookPassed = selectedBook
+            }
+        }
+    }
+    
     
     func reloadUI() {
         DispatchQueue.main.async {
@@ -98,7 +119,7 @@ class HomeVC: UIViewController {
     
     
     @IBAction func segmentChanged(_ sender: Any) {
-        print("current selected segment: \(tableSegment.selectedSegmentIndex)")
+//        print("current selected segment: \(tableSegment.selectedSegmentIndex)")
         reloadUI()
         
     }
@@ -109,10 +130,12 @@ class HomeVC: UIViewController {
 
 extension HomeVC: UITableViewDelegate, UITableViewDataSource {
     
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
         return tableSegment.selectedSegmentIndex == 0 ? apiBookArr.count : bookArr.count
     }
+    
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 
@@ -144,66 +167,13 @@ extension HomeVC: UITableViewDelegate, UITableViewDataSource {
         }
         
         return cell
-//        let currSeg = tableSegment.selectedSegmentIndex
-//        let cell = (currSeg == 0) ? bookTable.dequeueReusableCell(withIdentifier: "BookCell", for: indexPath) as! BookCell  : cdTable.dequeueReusableCell(withIdentifier: "BookCell", for: indexPath) as! BookCell
-//        
-//        if currSeg == 0 {
-//            
-//            cell.bName.text = apiBookArr[indexPath.row].name
-//            cell.bAuthor.text = apiBookArr[indexPath.row].author
-//            cell.bID.text = "\(apiBookArr[indexPath.row].bookid)"
-//            cell.bISBN.text = apiBookArr[indexPath.row].ISBN
-//            cell.bUUID.text = "\(apiBookArr[indexPath.row].id)"
-//            
-//            
-//        } else if currSeg == 1 {
-//            
-//            cell.bName.text = bookArr[indexPath.row].name
-//            cell.bAuthor.text = bookArr[indexPath.row].author
-//            cell.bID.text = "\(bookArr[indexPath.row].bookid)"
-//            cell.bISBN.text = bookArr[indexPath.row].ISBN
-//            cell.bUUID.text = "\(bookArr[indexPath.row].id)"
-//                        
-//        }
-//     
-//        return cell
-
-    }
-
-    
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
-        if tableView == bookTable {
-            
-            let bookSelected = apiBookArr[indexPath.row]
-            let bookToAdd = BookModel(bookid: bookSelected.bookid, name: bookSelected.name, author: bookSelected.author, ISBN: bookSelected.ISBN)
-            CDManager().AddToCd(bookToAdd: bookToAdd)
-            bookTable.deselectRow(at: indexPath, animated: true)
-        } else if tableView == cdTable {
-            cdTable.deselectRow(at: indexPath, animated: true)
-
-        }
-    }
-    
-    
-    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
-        
-        if tableView == cdTable {
-            
-            if editingStyle == .delete {
-                
-                let bookToDelete = bookArr[indexPath.row]
-                CDManager().deleteFromCD(book: bookToDelete)
-                deleteFromArr(position: indexPath.row)
-            }
-        }
-
     }
     
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 300
+        return 200
     }
+    
     
     private func configureCell(_ cell: BookCell, with book: BookModel) {
         cell.bName.text = book.name
@@ -212,4 +182,77 @@ extension HomeVC: UITableViewDelegate, UITableViewDataSource {
         cell.bISBN.text = book.ISBN
         cell.bUUID.text = "\(book.id)"
     }
+
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
+        if tableView == bookTable {
+            
+            let bookSelected = apiBookArr[indexPath.row]
+            CDManager().AddToCd(bookToAdd: bookSelected)
+            bookTable.deselectRow(at: indexPath, animated: true)
+            AlertManager.shared.okayAlert(on: self, title: "Added Successfully", msg: "Data added to CoreData") {
+//                navigationController
+            }
+        } else if tableView == cdTable {
+            cdTable.deselectRow(at: indexPath, animated: true)
+
+        }
+    }
+    
+    func tableView(_ tableView: UITableView, leadingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        if tableView == cdTable {
+            
+            let updateAction = UIContextualAction(style: .normal, title: "Update") { (action, view, completionHandler) in
+            
+                self.selectedBook = self.bookArr[indexPath.row]
+                self.performSegue(withIdentifier: "GoToUpdate", sender: self)
+                
+                completionHandler(true)
+            }
+            updateAction.backgroundColor = .systemOrange
+            updateAction.image = UIImage(systemName: "rectangle.and.pencil.and.ellipsis")
+            let updateConfig = UISwipeActionsConfiguration(actions: [updateAction])
+            
+            return updateConfig
+        } else {
+            let updateConfig = UISwipeActionsConfiguration(actions: [])
+            
+            return updateConfig
+        }
+        // Determine which array to use based on segment
+    }
+    
+    
+    func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        if tableView == cdTable {
+            let deleteAction = UIContextualAction(style: .normal, title: "Delete") { [self] action, v, completion in
+                //  Alert shown for confirmation
+                AlertManager.shared.classicAlert(on: self, title: "Are you sure", msg: "this is an irreversable action", yesBtnAction:  { [self] in
+                    
+                    //  CoreData's Delete function called
+                    let bookToDelete = bookArr[indexPath.row]
+                    CDManager().deleteFromCD(book: bookToDelete)
+                    deleteFromArr(position: indexPath.row)
+                    completion(true)
+
+                }, cancelBtnAction: {
+                    completion(true)
+
+                })
+            }
+            
+            deleteAction.backgroundColor = .systemRed
+            deleteAction.image = UIImage(systemName: "minus.circle.fill")
+            let deleteConfig = UISwipeActionsConfiguration(actions: [deleteAction])
+            return deleteConfig
+        } else {
+            let deleteConfig = UISwipeActionsConfiguration(actions: [])
+            
+            return deleteConfig
+        }
+    }
+    
+    
+    
 }

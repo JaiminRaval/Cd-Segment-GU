@@ -24,13 +24,24 @@ class FormVC: UIViewController {
     
     @IBAction func saveBtnPressed(_ sender: Any) {
         
-        let id = Int32(idText.text!)!
+        let id = Int32.random(in: 0...100)
         let isbn = idText.text!
         let name = nameTxt.text!
         let author = authorTxt.text!
         
-        let book = BookModel(bookid: id, name: name, author: author, ISBN: isbn)
-        CDManager().AddToCd(bookToAdd: book)
+        if isbn != "" && name != "" && author != "" {
+            AlertManager.shared.okayAlert(on: self, title: "Added Successfully", msg: "Book added to CoreData") {
+                let book = BookModel(bookid: id, name: name, author: author, ISBN: isbn)
+                DispatchQueue.main.async {
+                    CDManager().AddToCd(bookToAdd: book)
+                    self.navigationController?.popViewController(animated: true)
+                }
+                
+                
+                
+            }
+        }
+        
         
     }
     
