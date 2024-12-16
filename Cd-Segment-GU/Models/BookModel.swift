@@ -17,3 +17,8 @@ struct BookModel: Codable {
     var ISBN: String
     
 }
+
+
+//different apis for practice:
+//https://dummyapi.online/api/movies
+//https://www.freetestapi.com/api/v1/movies?limit=5
